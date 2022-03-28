@@ -1,0 +1,33 @@
+version: '3.0'
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.1.1
+    container_name: elastic-container
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    networks:
+      - ek-net
+#    volumes:
+#      - data01:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+
+  kibana:
+    container_name : kibana-conrainer
+    image: docker.elastic.co/kibana/kibana:7.14.1
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elastic-container:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - ek-net
+    depends_on:
+      - elasticsearch
+volumes:
+  data01:
+    driver: local
+
+networks:
+  ek-net:
+    driver: bridge
