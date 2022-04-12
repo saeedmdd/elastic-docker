@@ -12,7 +12,10 @@ services:
 #      - data01:/usr/share/elasticsearch/data
     ports:
       - "9200:9200"
-
+    deploy:
+      resources:
+        limits:
+          memory: "6000M"
   kibana:
     container_name : kibana-conrainer
     image: docker.elastic.co/kibana/kibana:8.1.2
